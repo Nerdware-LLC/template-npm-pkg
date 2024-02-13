@@ -1,0 +1,21 @@
+name: Release Workflow
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      SEMANTIC_RELEASE_TOKEN: { required: true }
+  push:
+    branches:
+      - main
+      - next
+    paths:
+      - "**" # TODO Update path glob to reflect only the project files that should trigger the Release workflow.
+
+jobs:
+  release:
+    name: Release
+    uses: Nerdware-LLC/reusable-action-workflows/.github/workflows/release.yaml@main
+    secrets:
+      SEMANTIC_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # If you add branch protection rules, a custom token is required.
