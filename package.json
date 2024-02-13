@@ -1,0 +1,48 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "author": {
+    "name": "",
+    "email": ""
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "type": "module",
+  "module": "dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/<REPO_OWNER>/<REPO_NAME>.git"
+  },
+  "homepage": "https://github.com/<REPO_OWNER>/<REPO_NAME>#readme",
+  "bugs": {
+    "url": "https://github.com/<REPO_OWNER>/<REPO_NAME>/issues"
+  },
+  "keywords": [],
+  "scripts": {
+    "lint": "eslint src",
+    "postlint": "npm run test:types",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage --bail=1 --silent",
+    "test:types": "tsc --project tsconfig.json --noEmit --skipLibCheck",
+    "prebuild": "[ -d dist ] && rm -rf dist || true",
+    "build": "./scripts/build.sh"
+  },
+  "overrides": {
+    "@serverless-guru/prettier-plugin-import-order": {
+      "prettier": "^3"
+    }
+  }
+}

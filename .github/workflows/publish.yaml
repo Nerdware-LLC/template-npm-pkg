@@ -1,0 +1,35 @@
+name: Publish Workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
+      - run: |
+          npm ci --include=dev
+          npm run build
+
+          if [ ${{ github.event.release.prerelease }} == true ]; then
+            latest_or_next_tag=next
+          else
+            latest_or_next_tag=latest
+          fi
+
+          npm publish --provenance --access public \
+            --tag ${{ github.ref }} \
+            --tag $latest_or_next_tag
+        env:
+          # TODO Update this secret with your own NPM token
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_PUBLISH_PUBLIC_ORG_SCOPE }}

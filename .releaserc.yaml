@@ -22,7 +22,7 @@ plugins:
 
   - - "@semantic-release/github"
     - addReleases: bottom
-    # TIP: You can add "assignees" here to auto-assign issues on release failure
+    # TODO: You can add "assignees" here to auto-assign issues on release failure
 
   - - "@semantic-release/changelog"
     - changelogFile: "CHANGELOG.md"
@@ -34,5 +34,9 @@ plugins:
         ---
 
   - - "@semantic-release/git"
-    - assets: ["CHANGELOG.md", "package.json", "package-lock.json", "npm-shrinkwrap.json"]
-      message: "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    - message: "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      assets:
+        - "CHANGELOG.md"
+        - "package.json"
+        - "package-lock.json"
+        - "npm-shrinkwrap.json"

@@ -1,0 +1,40 @@
+{
+  // This base tsconfig is used for development of the project's src files.
+
+  "include": ["src"],
+
+  "compilerOptions": {
+    // Language and Environment:
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+
+    // Modules:
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "types": ["node", "vitest/globals"],
+
+    // Emit:
+    "noEmitOnError": true,
+
+    // Completeness:
+    "skipLibCheck": false,
+
+    // Output Formatting:
+    "declaration": true,
+    "noErrorTruncation": true,
+
+    // Interop Constraints:
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Type Checking:
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "strict": true
+  }
+}

@@ -1,0 +1,73 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize] # default PR types
+    branches: [main, next]
+    paths: ["src/**/*", "package*.json"]
+  push:
+    branches: [main, next]
+    paths: ["src/**/*", "package*.json"]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #       to checkout the code
+      pull-requests: write # to add coverage reports to the PR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Run Tests
+        id: run-tests
+        run: |
+          npm ci --include=dev
+          npm run test:ci
+
+      - name: Update GitHub Commit Status
+        if: ${{ !cancelled() }}
+        run: |
+          if [ ${{ steps.run-tests.outcome }} == 'success' ]; then
+            commit_status_state='success'
+            description='Tests passed'
+          else
+            commit_status_state='failure'
+            description='Tests failed'
+          fi
+
+          curl --request POST \
+            --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+            --header 'content-type: application/json' \
+            --data "{
+              \"context\": \"tests\",
+              \"state\": \"$commit_status_state\",
+              \"description\": \"$description\",
+              \"target_url\": \"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+            }"
+
+      - name: Update CodeCov
+        if: success()
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Update PR with Coverage Reports
+        if: github.event_name == 'pull_request'
+        uses: davelosert/vitest-coverage-report-action@v2
+
+  release:
+    name: Release if Tests Passed (push-only)
+    needs: test # only run on push events when tests pass
+    if: github.event_name == 'push' && needs.test.result == 'success'
+    uses: ./.github/workflows/release.yaml
+    secrets:
+      SEMANTIC_RELEASE_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
