@@ -1,43 +1,51 @@
 <div align="center">
 
-  <a href="https://www.youtube.com/@nerdware-io">
-    <img src="https://github.com/Nerdware-LLC/.github/blob/main/profile/nerdware_logo.png" height="120" alt="Nerdware logo" />
-  </a>
+   <a href="https://www.youtube.com/@nerdware-io">
+      <img src="https://github.com/Nerdware-LLC/.github/blob/main/profile/nerdware_logo.png" height="120" alt="Nerdware logo" />
+   </a>
 
-  <h1>Nerdware Template NPM Package Repo</h1>
+   <h1>Nerdware Template NPM Package Repo</h1>
 
 **🚀 An Awesome Template to Jumpstart Projects 🚀**
 
+[![npm package][npm-badge]](https://www.npmjs.com/package/<NPM_PKG_NAME> "View this project on npm")
+[![Test Workflow][gh-test-badge]](.github/workflows/test.yaml "View Test Workflow file")
 [![pre-commit][pre-commit-badge]](https://pre-commit.com "pre-commit.com")
 [![semantic-release][semantic-badge]](https://github.com/semantic-release/semantic-release "github.com: semantic-release")
 [![License: MIT][license-badge]](/LICENSE "View License")
 
 <!--   BADGE LINKS   -->
-
+[npm-badge]: https://img.shields.io/npm/v/<NPM_PKG_NAME>?logo=npm&label=npm%40latest
+[gh-test-badge]: https://github.com/<REPO_OWNER>/<REPO_NAME>/actions/workflows/test.yaml/badge.svg?branch=main
 [pre-commit-badge]: https://img.shields.io/badge/pre--commit-F8B424.svg?logo=pre-commit&logoColor=F8B424&labelColor=gray
 [semantic-badge]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-E10079.svg
 [license-badge]: https://img.shields.io/badge/License-MIT-000080.svg
 
 </div>
 
-<!--
-   TODO Remove the below README section upon completion of post-init setup.
-   TODO Update links in the CONTRIBUTING.md file.
--->
-
 ### **_Repo Setup_**
 
-1. Update `package.json` fields:
+1. > [!IMPORTANT] IMPORTANT
+   >
+   > **_Run the `init_repo_setup` script first!_**
+   > ```bash
+   > # From the root of the repo:
+   > ./scripts/init_repo_setup.sh
+   >
+   > # Then simply follow the prompts 👍
+   > # Once the script completes, continue to step 2, below.
+   >
+   > # TIP: If you'd like to review the changes the script will
+   > # make before running it, you can use the `--dry-run` flag:
+   > ./scripts/init_repo_setup.sh --dry-run
+   > ```
 
-   - `name`
-   - `description`
+2. Update `package.json` fields:
+
    - `author`
-   - `repository.url`
-   - `homepage`
-   - `bugs.url`
    - `keywords`
 
-2. Install dev dependencies — here's the command with recommended packages:
+3. Install dev dependencies — here's the command with recommended packages:
 
    ```bash
    npm i -D \
@@ -59,7 +67,7 @@
       vitest-github-actions-reporter
    ```
 
-3. Set up [**pre-commit**](https://pre-commit.com/#install):
+4. Set up [**pre-commit**](https://pre-commit.com/#install):
 
    1. Ensure it's [installed](https://pre-commit.com/#install) locally or in an executable image.
    2. Update the [**pre-commit config file**](/.pre-commit-config.yaml) with project-appropriate hooks and tools. The pre-commit project provides a complete list of [supported hooks here](https://pre-commit.com/hooks.html). Some popular hook sources:
@@ -68,11 +76,11 @@
       - [Some Terraform-specific pre-commit Hooks](https://github.com/antonbabenko/pre-commit-terraform)
    3. Run `pre-commit install` to ensure local .git hooks are present.
 
-4. Complete the setup of the [`Test Workflow`](./.github/workflows/test.yaml) GitHub Action:
+5. Complete the setup of the [`Test Workflow`](./.github/workflows/test.yaml) GitHub Action:
 
    1. To enable [CodeCov](https://app.codecov.io/gh) updates, head to CodeCov and obtain a token for the repo. Then add the token as a [GitHub Actions Secret][gh-action-docs-url] named `CODECOV_TOKEN`.
 
-5. If the repo will include [branch protection rules][gh-branch-protect-url], take the additional steps needed to enable the [**Semantic-Release GitHub Action**][release-gh-action-url]:
+6. If the repo will include [branch protection rules][gh-branch-protect-url], take the additional steps needed to enable the [**Semantic-Release GitHub Action**][release-gh-action-url]:
 
    1. [Create a GitHub Personal Access Token][gh-pat-docs-url]. When creating the token, the minimum required scopes are:
       - `repo` for a private repository
@@ -89,9 +97,9 @@
    [gh-pat-docs-url]: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
    [gh-action-docs-url]: https://docs.github.com/en/actions/security-guides/encrypted-secrets
 
-6. Remove this section from the README.
+7. Remove this section from the README.
 
-7. Profit 💰💰💰🥳🎉 <!-- https://knowyourmeme.com/memes/profit -->
+8. Profit 💰💰💰🥳🎉 <!-- https://knowyourmeme.com/memes/profit -->
 
 ## 🚀 Getting Started
 
@@ -101,17 +109,7 @@
 
 ## 🤝 Contributing
 
-<!--
-  TODO Update below links for GH-Issues and GH-PRs:
-
-  [repo-pulls]: https://github.com/<REPO_OWNER>/<REPO_NAME>/pulls
-  [repo-issues]: https://github.com/<REPO_OWNER>/<REPO_NAME>/issues
--->
-
-[repo-pulls]: https://github.com//pulls
-[repo-issues]: https://github.com//issues
-
-Pull requests are welcome! Before you begin, please check existing [GitHub Issues][repo-issues] and [Pull Requests][repo-pulls] to see if your idea is already in the pipeline. If not, [here's a guide on how to contribute to this project](./CONTRIBUTING.md). Thank you!
+Pull requests are welcome! Before you begin, please check existing [GitHub Issues](https://github.com/<REPO_OWNER>/<REPO_NAME>/issues) and [Pull Requests](https://github.com/<REPO_OWNER>/<REPO_NAME>/pulls) to see if your idea is already in the pipeline. If not, [here's a guide on how to contribute to this project](./CONTRIBUTING.md). Thank you!
 
 ## 📝 License
 

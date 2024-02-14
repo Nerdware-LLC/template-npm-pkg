@@ -1,11 +1,12 @@
 {
-  "name": "",
+  "name": "<NPM_PKG_NAME>",
   "version": "1.0.0",
-  "description": "",
+  "description": "<REPO_DESCRIPTION>",
   "author": {
     "name": "",
     "email": ""
   },
+  "keywords": [],
   "license": "MIT",
   "engines": {
     "node": ">=16.0.0",
@@ -30,7 +31,6 @@
   "bugs": {
     "url": "https://github.com/<REPO_OWNER>/<REPO_NAME>/issues"
   },
-  "keywords": [],
   "scripts": {
     "lint": "eslint src",
     "postlint": "npm run test:types",
