@@ -50,19 +50,19 @@
    ```bash
    npm i -D \
       @serverless-guru/prettier-plugin-import-order \
+      @types/eslint \
       @types/node \
-      @typescript-eslint/eslint-plugin \
-      @typescript-eslint/parser \
       @vitest/coverage-v8 \
       eslint \
       eslint-config-prettier \
       eslint-import-resolver-typescript \
-      eslint-plugin-import \
+      eslint-plugin-import@npm:eslint-plugin-i@latest \
       eslint-plugin-node \
       eslint-plugin-vitest \
       prettier \
       type-fest \
       typescript \
+      typescript-eslint \
       vitest \
       vitest-github-actions-reporter
    ```

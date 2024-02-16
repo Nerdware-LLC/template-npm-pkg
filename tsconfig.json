@@ -17,6 +17,7 @@
 
     // Emit:
     "noEmitOnError": true,
+    "removeComments": true,
 
     // Completeness:
     "skipLibCheck": false,
