@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "<REPO_DESCRIPTION>",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "// TODO Update 'author.name' in package.json",
+    "email": "// TODO Update 'author.email' in package.json"
   },
-  "keywords": [],
+  "keywords": ["// TODO Add 'keywords' in package.json"],
   "license": "MIT",
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=<NODE_VERSION>.0.0",
+    "npm": ">=<NPM_VERSION>.0.0"
   },
   "type": "module",
   "module": "dist/esm/index.js",

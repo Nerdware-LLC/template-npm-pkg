@@ -52,9 +52,6 @@ export default [
       semi: ["error", "always"],
       "node/no-missing-import": "off",
       "node/no-process-env": "error",
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-inferrable-types": "off",
-      "@typescript-eslint/no-misused-promises": "error",
       ...eslintConfigPrettier.rules, // <-- must be last, removes rules that conflict with prettier
     },
     settings: {

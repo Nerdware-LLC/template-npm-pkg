@@ -10,7 +10,7 @@
 #
 ####################################################################################
 
-printf '\n%s' "$(printf '—%.0s' {1..60})"
+printf '\n%s' "$(printf '—%.0s' {1..80})"
 printf '\n%s' "Beginning initial repo setup ..."
 printf '\n%s\n\n' "Please answer the following prompts. Where applicable, press Enter to accept the default."
 
@@ -69,14 +69,75 @@ read -r -p "NPM package name (default: $default_npm_pkg_name) → " npm_pkg_name
 npm_pkg_name=${npm_pkg_name:-$default_npm_pkg_name}
 
 #------------------------------------------------------------------------------
+# GET THE DESIRED NODE+NPM VERSIONS
+
+# If NVM is available, set default to latest LTS version
+if command -v nvm &>/dev/null; then
+	# nvm ls-remote will list versions, tail gets the last one, grep gets the version number
+	latest_node_version="$(nvm ls-remote --lts | tail --lines=1 | grep -oE 'v([0-9]+\.?){3}')"
+	# Set the default to the major version number (e.g., '20' from 'v20.11.1')
+	default_node_version="$(echo "$latest_node_version" | grep -oP '(?<=v)[0-9]+')"
+else
+	default_node_version='20' # Default to 20 if nvm is not available (current LTS as of Feb 2024)
+fi
+
+while true; do
+	read -r -p "Node version number (default: $default_node_version) → " node_version
+	node_version=${node_version:-$default_node_version}
+	case $node_version in
+	[1-9][0-9]) break ;;
+	*) echo "Please provide a valid version number" ;;
+	esac
+done
+
+# Default NPM version = Node version divided by 2. Note that bash division truncates the
+# result, so 21/2=10, which just so happens to perfectly match node/npm-versioning logic.
+default_npm_version=$(($node_version / 2))
+
+while true; do
+	read -r -p "NPM version number (default: $default_npm_version) → " npm_version
+	npm_version=${npm_version:-$default_npm_version}
+	case $npm_version in
+	[1-9][0-9]) break ;;
+	*) echo "Please provide a valid version number" ;;
+	esac
+done
+
+#------------------------------------------------------------------------------
 # CONFIRM VALUES WITH USER
 
-printf '\n%s' "$(printf '—%.0s' {1..60})"
+# FOR CONFIRMATION DIALOG, SHOW LIST OF FILES THAT WILL BE UPDATED:
+files_to_update=()
+while IFS='' read -r filename; do files_to_update+=("${filename#./}"); done < <(
+	# <REPO_NAME>        → $repo_name
+	# <REPO_OWNER>       → $repo_owner
+	# <NPM_PKG_NAME>     → $npm_pkg_name
+	# <REPO_DESCRIPTION> → $repo_description
+	# <NODE_VERSION>     → $node_version
+	# <NPM_VERSION>      → $npm_version
+	grep \
+		--exclude=init_repo_setup.sh --recursive --files-with-matches . \
+		-e '<REPO_NAME>' \
+		-e '<REPO_OWNER>' \
+		-e '<NPM_PKG_NAME>' \
+		-e '<REPO_DESCRIPTION>' \
+		-e '<NODE_VERSION>' \
+		-e '<NPM_VERSION>'
+)
+
+printf '\n%s' "$(printf '—%.0s' {1..80})"
 printf '\n%s\n' 'Please confirm:'
 
-printf '\n\t%s' "Repo name: $repo_name"
-printf '\n\t%s' "Repo owner: $repo_owner"
-printf '\n\t%s\n\n' "NPM package name: $npm_pkg_name"
+printf '\n\t%20s %s' 'Repo name:' "$repo_name"
+printf '\n\t%20s %s' 'Repo owner:' "$repo_owner"
+printf '\n\t%20s %s' 'NPM package name:' "$npm_pkg_name"
+printf '\n\t%20s %s' 'Node version:' "$node_version"
+printf '\n\t%20s %s' 'NPM version:' "$npm_version"
+printf '\n'
+printf '\n\t%s' 'Files that will be updated with these values:'
+# shellcheck disable=SC2048,SC2086
+printf '\n\t%21s %s' ${files_to_update[*]/#/'➜  '}
+printf '\n\n'
 
 while true; do
 	read -r -p "Is this information correct? If not, script will exit. (y/n) → " is_correct
@@ -90,24 +151,7 @@ done
 #------------------------------------------------------------------------------
 # UPDATE VALUES:
 
-# <REPO_NAME>        → $repo_name
-# <REPO_OWNER>       → $repo_owner
-# <NPM_PKG_NAME>     → $npm_pkg_name
-# <REPO_DESCRIPTION> → $repo_description
-
-# GET LIST OF FILES TO UPDATE:
-files_to_update=()
-while IFS='' read -r filename; do files_to_update+=("$filename"); done < <(
-	grep \
-		--exclude=\*.sh -Rwl ./ \
-		-e '<REPO_NAME>' \
-		-e '<REPO_OWNER>' \
-		-e '<NPM_PKG_NAME>' \
-		-e '<REPO_DESCRIPTION>'
-)
-
-printf '\n%s\n' "Updating the following files:"
-printf '\t%s\n' "${files_to_update[@]}"
+printf '\n%s\n' "Updating files ..."
 
 # MAKE THE UPDATES:
 sed -i.bak \
@@ -115,6 +159,8 @@ sed -i.bak \
 	-e "s|<REPO_OWNER>|$repo_owner|g" \
 	-e "s|<NPM_PKG_NAME>|$npm_pkg_name|g" \
 	-e "s|<REPO_DESCRIPTION>|$repo_description|g" \
+	-e "s|<NODE_VERSION>|$node_version|g" \
+	-e "s|<NPM_VERSION>|$npm_version|g" \
 	"${files_to_update[@]}"
 
 #------------------------------------------------------------------------------
