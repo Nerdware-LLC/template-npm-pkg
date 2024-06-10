@@ -6,7 +6,7 @@
 
    <h1>Nerdware Template NPM Package Repo</h1>
 
-**🚀 An Awesome Template to Jumpstart Projects 🚀**
+<h4>🚀 An Awesome Template to Jumpstart Projects 🚀</h4>
 
 [![npm package][npm-badge]](https://www.npmjs.com/package/<NPM_PKG_NAME> "View this project on npm")
 [![Test Workflow][gh-test-badge]](.github/workflows/test.yaml "View Test Workflow file")
@@ -28,6 +28,7 @@
 1. > [!IMPORTANT] IMPORTANT
    >
    > **_Run the `init_repo_setup` script first!_**
+   >
    > ```bash
    > # From the root of the repo:
    > ./scripts/init_repo_setup.sh
